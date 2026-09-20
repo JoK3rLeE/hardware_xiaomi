@@ -16,8 +16,8 @@
 #include <string.h>
 #include <utils/SystemClock.h>
 
-static const char *udfps_pressed_path = "/sys/devices/platform/goodix_ts.0/udfps_pressed";
-static const char *udfps_enabled_path = "/sys/devices/platform/goodix_ts.0/udfps_enabled";
+static const char *udfps_pressed_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/udfps_pressed";
+static const char *udfps_enabled_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/udfps_enabled";
 
 static struct sensor_t udfps_sensor = {
         .name = "UDFPS Sensor",

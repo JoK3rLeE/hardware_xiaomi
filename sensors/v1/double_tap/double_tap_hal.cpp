@@ -16,8 +16,8 @@
 #include <string.h>
 #include <utils/SystemClock.h>
 
-static const char *double_tap_pressed_path = "/sys/devices/platform/goodix_ts.0/double_tap_pressed";
-static const char *double_tap_enabled_path = "/sys/devices/platform/goodix_ts.0/double_tap_enabled";
+static const char *double_tap_pressed_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/double_tap_pressed";
+static const char *double_tap_enabled_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/double_tap_enabled";
 
 static struct sensor_t double_tap_sensor = {
         .name = "dt2w Sensor",

@@ -13,8 +13,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <utils/SystemClock.h>
-static const char *single_tap_pressed_path = "/sys/devices/platform/goodix_ts.0/single_tap_pressed";
-static const char *single_tap_enabled_path = "/sys/devices/platform/goodix_ts.0/single_tap_enabled";
+static const char *single_tap_pressed_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/single_tap_pressed";
+static const char *single_tap_enabled_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/single_tap_enabled";
 static struct sensor_t single_tap_sensor = {
         .name = "st2w Sensor",
         .vendor = "The LineageOS Project",
