@@ -5,7 +5,10 @@
 //
 cc_library_shared {
     name: "sensors.single_tap",
-    defaults: ["hidl_defaults"],
+    defaults: [
+        "hidl_defaults",
+        "xiaomi_touch_defaults",
+    ],
     srcs: [
         "single_tap_hal.cpp",
     ],

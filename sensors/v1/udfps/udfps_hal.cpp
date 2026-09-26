@@ -16,8 +16,17 @@
 #include <string.h>
 #include <utils/SystemClock.h>
 
+#if defined(XIAOMI_TOUCHSCREEN_GOODIX)
+
 static const char *udfps_pressed_path = "/sys/devices/platform/goodix_ts.0/udfps_pressed";
 static const char *udfps_enabled_path = "/sys/devices/platform/goodix_ts.0/udfps_enabled";
+
+#elif defined(XIAOMI_TOUCHSCREEN_FTS521)
+
+static const char *udfps_pressed_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/udfps_pressed";
+static const char *udfps_enabled_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/udfps_enabled";
+
+#endif
 
 static struct sensor_t udfps_sensor = {
         .name = "UDFPS Sensor",

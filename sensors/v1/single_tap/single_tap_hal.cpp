@@ -13,8 +13,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <utils/SystemClock.h>
+#if defined(XIAOMI_TOUCHSCREEN_GOODIX)
+
 static const char *single_tap_pressed_path = "/sys/devices/platform/goodix_ts.0/single_tap_pressed";
 static const char *single_tap_enabled_path = "/sys/devices/platform/goodix_ts.0/single_tap_enabled";
+
+#elif defined(XIAOMI_TOUCHSCREEN_FTS521)
+
+static const char *single_tap_pressed_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/single_tap_pressed";
+static const char *single_tap_enabled_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/single_tap_enabled";
+
+#endif
 static struct sensor_t single_tap_sensor = {
         .name = "st2w Sensor",
         .vendor = "The LineageOS Project",

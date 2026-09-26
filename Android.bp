@@ -1,2 +1,33 @@
 soong_namespace {
 }
+
+soong_config_string_variable {
+    name: "touchscreen",
+    values: [
+        "goodix",
+        "fts521",
+    ],
+}
+
+soong_config_module_type {
+    name: "xiaomi_touch_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "xiaomi_touch",
+    value_variables: ["touchscreen"],
+    properties: ["cflags"],
+}
+
+xiaomi_touch_cc_defaults {
+    name: "xiaomi_touch_defaults",
+
+    soong_config_variables: {
+        touchscreen: {
+            goodix: {
+                cflags: ["-DXIAOMI_TOUCHSCREEN_GOODIX"],
+            },
+            fts521: {
+                cflags: ["-DXIAOMI_TOUCHSCREEN_FTS521"],
+            },
+        },
+    },
+}

@@ -6,7 +6,10 @@
 
 cc_library_shared {
     name: "sensors.udfps",
-    defaults: ["hidl_defaults"],
+    defaults: [
+        "hidl_defaults",
+        "xiaomi_touch_defaults",
+    ],
     srcs: [
         "udfps_hal.cpp",
     ],

@@ -16,8 +16,17 @@
 #include <string.h>
 #include <utils/SystemClock.h>
 
+#if defined(XIAOMI_TOUCHSCREEN_GOODIX)
+
 static const char *double_tap_pressed_path = "/sys/devices/platform/goodix_ts.0/double_tap_pressed";
 static const char *double_tap_enabled_path = "/sys/devices/platform/goodix_ts.0/double_tap_enabled";
+
+#elif defined(XIAOMI_TOUCHSCREEN_FTS521)
+
+static const char *double_tap_pressed_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/double_tap_pressed";
+static const char *double_tap_enabled_path = "/sys/devices/platform/soc/c80000.i2c/i2c-2/2-0049/double_tap_enabled";
+
+#endif
 
 static struct sensor_t double_tap_sensor = {
         .name = "dt2w Sensor",
