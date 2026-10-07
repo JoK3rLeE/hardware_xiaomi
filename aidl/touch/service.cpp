@@ -5,6 +5,7 @@
 
 #define LOG_TAG "vendor.lineage.touch-service.xiaomi"
 
+#include "AiKey.h"
 #include "HighTouchPollingRate.h"
 #include "KeyDisabler.h"
 #include "KeySwapper.h"
@@ -19,6 +20,9 @@ using aidl::vendor::lineage::touch::KeySwapper;
 
 int main() {
     binder_status_t status = STATUS_OK;
+
+    aidl::vendor::lineage::touch::AiKey aiKey;
+    aiKey.start();
 
     ABinderProcess_setThreadPoolMaxThreadCount(0);
 
