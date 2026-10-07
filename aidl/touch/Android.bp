@@ -28,7 +28,7 @@ cc_binary {
         any @ flag_val: ["-DKS_CONTROL_PATH=\"" + flag_val + "\""],
         default: [],
     }),
-    srcs: select(soong_config_variable("XIAOMI_TOUCH", "HIGH_TOUCH_POLLING_PATH"), {
+    srcs: ["AiKey.cpp"] + select(soong_config_variable("XIAOMI_TOUCH", "HIGH_TOUCH_POLLING_PATH"), {
         any: ["HighTouchPollingRate.cpp"],
         default: [],
     }) + select(soong_config_variable("XIAOMI_TOUCH", "KEY_DISABLER_CONTROL_PATH"), {
