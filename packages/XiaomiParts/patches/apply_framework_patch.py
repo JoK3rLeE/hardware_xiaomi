@@ -17,7 +17,7 @@ if src.count(case_marker) != 1 or src.count(helper_marker) != 1:
 
 key_case = """        case 338: { // Xiaomi AI key (Android KEYCODE_AI)
             result &= ~ACTION_PASS_TO_USER;
-            if (down && event.getRepeatCount() == 0 && interactive) {
+            if (down && event.getRepeatCount() == 0 && interactive && !keyguardActive) {
                 handleXiaomiAiKey();
             }
             break;
