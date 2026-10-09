@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -15,16 +16,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceScreen;
+
+import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class AIKeySettingsFragment extends PreferenceFragmentCompat {
+public class AIKeySettingsFragment extends SettingsBasePreferenceFragment {
     static final String KEY_ACTION = "xiaomi_ai_key_action";
     static final String KEY_CUSTOM_COMPONENT = "xiaomi_ai_key_custom_component";
 
@@ -32,54 +32,43 @@ public class AIKeySettingsFragment extends PreferenceFragmentCompat {
     private Preference mCustomAppPreference;
 
     @Override
-    public void onCreatePreferences(android.os.Bundle savedInstanceState, String rootKey) {
-        final Context context = requireContext();
-        final PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
-        setPreferenceScreen(screen);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.ai_key_settings, rootKey);
 
-        PreferenceCategory aiKeyCategory = new PreferenceCategory(context);
-        aiKeyCategory.setTitle(R.string.ai_key_title);
-        screen.addPreference(aiKeyCategory);
+        mActionPreference = findPreference("ai_key_action");
+        mCustomAppPreference = findPreference("ai_key_custom_app");
 
-        mActionPreference = new ListPreference(context);
-        mActionPreference.setKey("ai_key_action");
-        mActionPreference.setTitle(R.string.ai_key_action_title);
-        mActionPreference.setDialogTitle(R.string.ai_key_action_title);
-        mActionPreference.setSummary(R.string.ai_key_action_summary);
-        mActionPreference.setEntries(new CharSequence[] {
-                getString(R.string.ai_key_action_disabled),
-                getString(R.string.ai_key_action_assistant),
-                getString(R.string.ai_key_action_gemini),
-                getString(R.string.ai_key_action_camera),
-                getString(R.string.ai_key_action_custom_app)
-        });
-        mActionPreference.setEntryValues(new CharSequence[] {
-                "disabled", "assistant", "gemini", "camera", "custom_app"
-        });
+        if (mActionPreference == null || mCustomAppPreference == null) {
+            throw new IllegalStateException("AI key preferences are missing from XML");
+        }
+
+        // Settings.System is the source of truth; do not persist these values
+        // into the fragment's private SharedPreferences.
         mActionPreference.setPersistent(false);
+        mCustomAppPreference.setPersistent(false);
+
         mActionPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             final String action = String.valueOf(newValue);
             if ("custom_app".equals(action)) {
                 pickCustomApp();
                 return false;
             }
-            Settings.System.putString(
-                    requireContext().getContentResolver(), KEY_ACTION, action);
-            mActionPreference.setValue(action);
+
+            if (Settings.System.putString(
+                    requireContext().getContentResolver(), KEY_ACTION, action)) {
+                mActionPreference.setValue(action);
+            } else {
+                Toast.makeText(requireContext(),
+                        R.string.ai_key_settings_save_failed, Toast.LENGTH_SHORT).show();
+            }
             updateSummaries();
             return false;
         });
-        aiKeyCategory.addPreference(mActionPreference);
 
-        mCustomAppPreference = new Preference(context);
-        mCustomAppPreference.setKey("ai_key_custom_app");
-        mCustomAppPreference.setTitle(R.string.ai_key_custom_app_title);
-        mCustomAppPreference.setSummary(R.string.ai_key_custom_app_summary);
         mCustomAppPreference.setOnPreferenceClickListener(preference -> {
             pickCustomApp();
             return true;
         });
-        aiKeyCategory.addPreference(mCustomAppPreference);
 
         updateSummaries();
     }
@@ -144,7 +133,8 @@ public class AIKeySettingsFragment extends PreferenceFragmentCompat {
         launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         final PackageManager pm = context.getPackageManager();
-        final List<ResolveInfo> apps = new ArrayList<>(pm.queryIntentActivities(launchIntent, 0));
+        final List<ResolveInfo> apps = new ArrayList<>(
+                pm.queryIntentActivities(launchIntent, 0));
         Collections.sort(apps, Comparator.comparing(
                 info -> info.loadLabel(pm).toString(),
                 String.CASE_INSENSITIVE_ORDER));
@@ -165,10 +155,15 @@ public class AIKeySettingsFragment extends PreferenceFragmentCompat {
                     ResolveInfo selected = apps.get(which);
                     ComponentName component = new ComponentName(
                             selected.activityInfo.packageName, selected.activityInfo.name);
-                    Settings.System.putString(context.getContentResolver(),
+                    boolean componentSaved = Settings.System.putString(
+                            context.getContentResolver(),
                             KEY_CUSTOM_COMPONENT, component.flattenToString());
-                    Settings.System.putString(context.getContentResolver(),
-                            KEY_ACTION, "custom_app");
+                    boolean actionSaved = componentSaved && Settings.System.putString(
+                            context.getContentResolver(), KEY_ACTION, "custom_app");
+                    if (!actionSaved) {
+                        Toast.makeText(context, R.string.ai_key_settings_save_failed,
+                                Toast.LENGTH_SHORT).show();
+                    }
                     updateSummaries();
                 })
                 .setNegativeButton(android.R.string.cancel, null)
