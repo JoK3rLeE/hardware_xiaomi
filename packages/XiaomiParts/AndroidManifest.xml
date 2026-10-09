@@ -15,7 +15,7 @@
         <activity
             android:name=".AIKeyActivity"
             android:exported="true"
-            android:label="@string/ai_key_title"
+            android:label="@string/xiaomi_parts_title"
             android:icon="@android:drawable/ic_menu_manage"
             android:theme="@style/Theme.SubSettingsBase.Expressive">
             <intent-filter>
