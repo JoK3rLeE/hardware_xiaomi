@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
@@ -35,6 +36,10 @@ public class AIKeySettingsFragment extends PreferenceFragmentCompat {
         final Context context = requireContext();
         final PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
         setPreferenceScreen(screen);
+
+        PreferenceCategory aiKeyCategory = new PreferenceCategory(context);
+        aiKeyCategory.setTitle(R.string.ai_key_title);
+        screen.addPreference(aiKeyCategory);
 
         mActionPreference = new ListPreference(context);
         mActionPreference.setKey("ai_key_action");
@@ -64,7 +69,7 @@ public class AIKeySettingsFragment extends PreferenceFragmentCompat {
             updateSummaries();
             return false;
         });
-        screen.addPreference(mActionPreference);
+        aiKeyCategory.addPreference(mActionPreference);
 
         mCustomAppPreference = new Preference(context);
         mCustomAppPreference.setKey("ai_key_custom_app");
@@ -74,7 +79,7 @@ public class AIKeySettingsFragment extends PreferenceFragmentCompat {
             pickCustomApp();
             return true;
         });
-        screen.addPreference(mCustomAppPreference);
+        aiKeyCategory.addPreference(mCustomAppPreference);
 
         updateSummaries();
     }
