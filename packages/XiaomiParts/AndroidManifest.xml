@@ -17,7 +17,7 @@
             android:name=".AIKeyActivity"
             android:exported="true"
             android:label="@string/ai_key_settings_title"
-            android:icon="@android:drawable/ic_menu_manage">
+            android:icon="@drawable/ic_ai_key">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
