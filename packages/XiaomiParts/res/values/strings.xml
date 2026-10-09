@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="xiaomi_parts_title">Xiaomi Parts</string>
+    <string name="ai_key_title">AI key</string>
+    <string name="ai_key_summary">Choose what the hardware AI key does.</string>
+    <string name="ai_key_action_title">Press action</string>
+    <string name="ai_key_action_summary">Select the action to run when the AI key is pressed.</string>
+    <string name="ai_key_custom_app_title">Choose custom app</string>
+    <string name="ai_key_custom_app_summary">Use an installed app for the AI key.</string>
+    <string name="ai_key_custom_app_dialog">Select an app</string>
+    <string name="ai_key_custom_app_none">No launchable apps were found.</string>
+    <string name="ai_key_action_disabled">Disabled</string>
+    <string name="ai_key_action_assistant">Default assistant</string>
+    <string name="ai_key_action_gemini">Gemini</string>
+    <string name="ai_key_action_camera">Camera</string>
+    <string name="ai_key_action_custom_app">Custom app</string>
+</resources>
