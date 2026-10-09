@@ -11,7 +11,7 @@ public class AIKeyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.ai_key_title);
+        setTitle(R.string.xiaomi_parts_title);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
