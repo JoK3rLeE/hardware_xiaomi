@@ -5,18 +5,16 @@ package com.xiaomi.settings.parts;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
+import com.android.settingslib.collapsingtoolbar.R;
 
-public class AIKeyActivity extends AppCompatActivity {
+public class AIKeyActivity extends CollapsingToolbarBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.xiaomi_parts_title);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new AIKeySettingsFragment())
-                    .commit();
-        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, new AIKeySettingsFragment(), "AIKeySettingsFragment")
+                .commit();
     }
 }
