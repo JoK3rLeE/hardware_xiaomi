@@ -11,7 +11,7 @@ if "handleXiaomiAiKey()" in src:
     raise SystemExit("AI key handler already exists; refusing to patch twice.")
 
 case_marker = "        case KeyEvent.KEYCODE_ASSIST: {"
-helper_marker = '    // There are several different flavors of "assistant"'
+helper_marker = "    // There are several different flavors of"
 if src.count(case_marker) != 1 or src.count(helper_marker) != 1:
     raise SystemExit("Unexpected PhoneWindowManager layout; no files changed.")
 
