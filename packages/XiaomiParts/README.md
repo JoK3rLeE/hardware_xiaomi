@@ -1,8 +1,14 @@
-# Xiaomi Parts — AI key settings
+# AI Key
 
-This is a Settings extension for the Cepheus AI hardware key. It has no launcher
-entry; the custom ROM Settings app discovers it through the
-`com.android.settings.action.IA_SETTINGS` extension action in the System category.
+This is a Settings extension for the Cepheus AI hardware key. The Settings
+selector is named **AI Key** and is discovered by the ROM Settings app through
+the `com.android.settings.action.IA_SETTINGS` extension action in the System
+category.
+
+The page follows the existing Xiaomi eSIM Switcher and Xiaomi Dolby SettingsLib
+pattern: `CollapsingToolbarBaseActivity`, `SettingsBasePreferenceFragment`,
+and `Theme.SubSettingsBase.Expressive`. Preference definitions are in
+`res/xml/ai_key_settings.xml`.
 
 The preference writes these values to `Settings.System`:
 
