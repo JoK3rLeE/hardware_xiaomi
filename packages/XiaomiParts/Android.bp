@@ -16,6 +16,7 @@ android_app {
     static_libs: [
         "SettingsLib",
         "SpaLib",
+        "org.lineageos.settings.resources",
         "androidx.appcompat_appcompat",
         "androidx.preference_preference",
     ],
