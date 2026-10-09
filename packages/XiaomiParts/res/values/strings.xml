@@ -12,6 +12,7 @@
     <string name="ai_key_custom_app_summary">Use an installed app for the AI key.</string>
     <string name="ai_key_custom_app_dialog">Select an app</string>
     <string name="ai_key_custom_app_none">No launchable apps were found.</string>
+    <string name="ai_key_settings_save_failed">Could not save AI key settings.</string>
     <string name="ai_key_action_disabled">Disabled</string>
     <string name="ai_key_action_assistant">Default assistant</string>
     <string name="ai_key_action_gemini">Gemini</string>
