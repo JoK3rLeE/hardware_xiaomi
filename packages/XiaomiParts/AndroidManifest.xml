@@ -10,14 +10,14 @@
 
     <application
         android:allowBackup="false"
-        android:label="@string/xiaomi_parts_title">
+        android:label="@string/ai_key_settings_title"
+        android:theme="@style/Theme.SubSettingsBase.Expressive">
 
         <activity
             android:name=".AIKeyActivity"
             android:exported="true"
-            android:label="@string/xiaomi_parts_title"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:theme="@style/Theme.AppCompat.DayNight">
+            android:label="@string/ai_key_settings_title"
+            android:icon="@android:drawable/ic_menu_manage">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
