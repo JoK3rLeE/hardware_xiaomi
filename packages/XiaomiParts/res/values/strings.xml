@@ -3,7 +3,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <string name="xiaomi_parts_title">Xiaomi Parts</string>
+    <string name="ai_key_settings_title">AI Key</string>
     <string name="ai_key_title">AI key</string>
     <string name="ai_key_summary">Choose what the hardware AI key does.</string>
     <string name="ai_key_action_title">Press action</string>
@@ -17,4 +17,19 @@
     <string name="ai_key_action_gemini">Gemini</string>
     <string name="ai_key_action_camera">Camera</string>
     <string name="ai_key_action_custom_app">Custom app</string>
+
+    <string-array name="ai_key_action_entries">
+        <item>@string/ai_key_action_disabled</item>
+        <item>@string/ai_key_action_assistant</item>
+        <item>@string/ai_key_action_gemini</item>
+        <item>@string/ai_key_action_camera</item>
+        <item>@string/ai_key_action_custom_app</item>
+    </string-array>
+    <string-array name="ai_key_action_values">
+        <item>disabled</item>
+        <item>assistant</item>
+        <item>gemini</item>
+        <item>camera</item>
+        <item>custom_app</item>
+    </string-array>
 </resources>
