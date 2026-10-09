@@ -17,7 +17,7 @@
             android:exported="true"
             android:label="@string/xiaomi_parts_title"
             android:icon="@android:drawable/ic_menu_manage"
-            android:theme="@style/Theme.SubSettingsBase.Expressive">
+            android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
