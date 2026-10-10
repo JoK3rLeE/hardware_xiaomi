@@ -20,7 +20,7 @@ if (src.count(intercept_marker) != 1 or src.count(helper_marker) != 1):
 intercept_start = src.index(intercept_marker)
 boot_index = src.index(boot_marker, intercept_start)
 helper_index = src.index(helper_marker)
-if boot_index <= intercept_start or helper_index >= intercept_start:
+if boot_index <= intercept_start or helper_index <= 0 or helper_index >= intercept_start:
     raise SystemExit("Could not locate the boot guard/helper anchors in expected locations.")
 
 # This handler intentionally keys off the verified Linux scan code 689,
