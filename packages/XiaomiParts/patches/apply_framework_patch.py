@@ -10,14 +10,36 @@ src = target.read_text()
 if "handleXiaomiAiKey()" in src:
     raise SystemExit("AI key handler already exists; refusing to patch twice.")
 
-case_marker = "        // If the key would be handled globally, just return the result, don't worry about special"
+# Anchor within interceptKeyBeforeQueueing, before global-key interception.
+intercept_marker = "    interceptKeyBeforeQueueing(KeyEvent event, int policyFlags) {"
+boot_marker = "        if (!mSystemBooted) {"
 helper_marker = "    // There are several different flavors of"
-if src.count(case_marker) != 1 or src.count(helper_marker) != 1:
+if (src.count(intercept_marker) != 1 or src.count(boot_marker) != 1
+        or src.count(helper_marker) != 1):
     raise SystemExit("Unexpected PhoneWindowManager layout; no files changed.")
 
-# Match the physical Linux scan code directly. Its Android keycode depends on
-# the device's active .kl mapping, which is being corrected separately.
+intercept_start = src.index(intercept_marker)
+boot_index = src.index(boot_marker, intercept_start)
+if boot_index <= intercept_start:
+    raise SystemExit("Could not locate boot guard inside interceptKeyBeforeQueueing.")
+
+# This handler intentionally keys off the verified Linux scan code 689,
+# independent of the Android keycode selected by the active .kl file.
 scan_code_handler = """        // Xiaomi AI Key: Linux KEY_MACRO_RECORD_STOP, scan code 689.
+        if (event.getScanCode() == 689) {
+            final boolean aiKeyDown = event.getAction() == KeyEvent.ACTION_DOWN;
+            if (aiKeyDown && event.getRepeatCount() == 0
+                    && mSystemBooted
+                    && (policyFlags & FLAG_INTERACTIVE) != 0
+                    && (mKeyguardDelegate == null
+                            || !mKeyguardDelegate.isShowing())) {
+                handleXiaomiAiKey();
+            }
+            return 0;
+        }
+
+"""
+handler = """        // Xiaomi AI Key: Linux KEY_MACRO_RECORD_STOP, scan code 689.
         if (event.getScanCode() == 689) {
             result &= ~ACTION_PASS_TO_USER;
             if (down && event.getRepeatCount() == 0 && interactive && !keyguardActive) {
@@ -76,7 +98,7 @@ handler = """    private void handleXiaomiAiKey() {
     }
 
 """
-src = src.replace(case_marker, scan_code_handler + case_marker, 1)
+src = src.replace(boot_marker, scan_code_handler + boot_marker, 1)
 src = src.replace(helper_marker, handler + helper_marker, 1)
 target.write_text(src)
 print(f"Patched {target}; inspect the diff and build services/core.")
