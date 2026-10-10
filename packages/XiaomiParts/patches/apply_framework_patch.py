@@ -14,14 +14,14 @@ if "handleXiaomiAiKey()" in src:
 intercept_marker = "public int interceptKeyBeforeQueueing(KeyEvent event, int policyFlags) {"
 boot_marker = "        if (!mSystemBooted) {"
 helper_marker = "    // There are several different flavors of"
-if (src.count(intercept_marker) != 1 or src.count(boot_marker) != 1
-        or src.count(helper_marker) != 1):
+if (src.count(intercept_marker) != 1 or src.count(helper_marker) != 1):
     raise SystemExit("Unexpected PhoneWindowManager layout; no files changed.")
 
 intercept_start = src.index(intercept_marker)
 boot_index = src.index(boot_marker, intercept_start)
-if boot_index <= intercept_start:
-    raise SystemExit("Could not locate boot guard inside interceptKeyBeforeQueueing.")
+helper_index = src.index(helper_marker)
+if boot_index <= intercept_start or helper_index >= intercept_start:
+    raise SystemExit("Could not locate the boot guard/helper anchors in expected locations.")
 
 # This handler intentionally keys off the verified Linux scan code 689,
 # independent of the Android keycode selected by the active .kl file.
@@ -88,7 +88,7 @@ handler = """    private void handleXiaomiAiKey() {
     }
 
 """
-src = src.replace(boot_marker, scan_code_handler + boot_marker, 1)
+src = src[:boot_index] + scan_code_handler + src[boot_index:]
 src = src.replace(helper_marker, handler + helper_marker, 1)
 target.write_text(src)
 print(f"Patched {target}; inspect the diff and build services/core.")
