@@ -11,7 +11,7 @@ if "handleXiaomiAiKey()" in src:
     raise SystemExit("AI key handler already exists; refusing to patch twice.")
 
 # Anchor within interceptKeyBeforeQueueing, before global-key interception.
-intercept_marker = "    interceptKeyBeforeQueueing(KeyEvent event, int policyFlags) {"
+intercept_marker = "public int interceptKeyBeforeQueueing(KeyEvent event, int policyFlags) {"
 boot_marker = "        if (!mSystemBooted) {"
 helper_marker = "    // There are several different flavors of"
 if (src.count(intercept_marker) != 1 or src.count(boot_marker) != 1
