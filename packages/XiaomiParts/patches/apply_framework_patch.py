@@ -39,16 +39,6 @@ scan_code_handler = """        // Xiaomi AI Key: Linux KEY_MACRO_RECORD_STOP, sc
         }
 
 """
-handler = """        // Xiaomi AI Key: Linux KEY_MACRO_RECORD_STOP, scan code 689.
-        if (event.getScanCode() == 689) {
-            result &= ~ACTION_PASS_TO_USER;
-            if (down && event.getRepeatCount() == 0 && interactive && !keyguardActive) {
-                handleXiaomiAiKey();
-            }
-            return result;
-        }
-
-"""
 handler = """    private void handleXiaomiAiKey() {
         final ContentResolver resolver = mContext.getContentResolver();
         final String action = Settings.System.getStringForUser(
